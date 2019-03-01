@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mouse Events</title>
+    <style>
+        #canvas {
+            border: 1px black solid;
+        }
+    </style>
+</head>
+<body>
+<P>Click the mouse on the canvas</P>
+<canvas id="canvas" height="400" width="400"></canvas>
+
+<label for="color"><br/>What color do you want? <input id="color" type="text">
+    <br/> You may use a color name or a hex code</label>
+
+
+<label for="size"><br/>What size do you want? <input id="size" type="text">
+    <br/>Please use a number 1-50</label>
+
+
+<script>
+    let canvas = document.getElementById("canvas");
+    let context = canvas.getContext("2d");
+
+    let cInput = document.getElementById("color");
+    let sInput = document.getElementById("size");
+
+    let color;
+    cInput.addEventListener("input", function () {
+        color = this.value;
+    });
+    let size;
+    sInput.addEventListener("input",function () {
+        size = this.value;
+    });
+
+    var mousedown = false;
+
+    canvas.addEventListener("mousedown", function() {
+        mousedown = true
+    });
+    canvas.addEventListener("mouseup", function() {
+        mousedown = false
+    });
+    canvas.addEventListener("mousemove", function() {
+        if (!mousedown) { return; }
+        // event is a built-in variable, contains the event that triggered this function
+        // get the x, y location of the event
+        var x = event.offsetX;
+        var y = event.offsetY;   //offsetX, offsetY, may not work in older browsers
+        //Draw a filled rectangle centered under the mouse click
+        //x, y is the top left corner, so shift up and left by 5 to center it under the mouse.
+        // context.fillRect(x-5, y-5, 10, 10);
+        context.beginPath();
+        context.arc(x-5, y-5, size, 0, 2*Math.PI);
+        context.fillStyle = color;
+        context.fill();
+        context.stroke();
+
+    })
+</script>
+</body>
+</html>
